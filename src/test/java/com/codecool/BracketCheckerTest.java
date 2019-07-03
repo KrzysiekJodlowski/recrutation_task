@@ -27,4 +27,25 @@ public class BracketCheckerTest {
 
         Assert.assertTrue(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
+
+    @Test
+    public void checkIfIncorrectShortInputReturnsFalse() {
+        this.bracketChecker = new BracketChecker("[{");
+
+        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+    @Test
+    public void checkIfIncorrectLongInputReturnsTrue() {
+        this.bracketChecker = new BracketChecker("({)[[[))})");
+
+        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+    @Test
+    public void checkIfCorrectLongInputReturnsTrue() {
+        this.bracketChecker = new BracketChecker("([]{[]}([]))");
+
+        Assert.assertTrue(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
 }
