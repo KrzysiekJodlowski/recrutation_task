@@ -6,39 +6,40 @@ import java.util.List;
 public class BracketChecker {
 
     private String brackets;
+    private final int ZERO_INDEX = 0;
+    private final int INDEX_ONE = 1;
 
     public BracketChecker(String brackets) {
         this.brackets = brackets;
     }
 
     public boolean areBracketsMatchedAndNestedCorrectly() {
-        int bracketsLength;
-
-        int ZERO_INDEX = 0;
-        int INDEX_ONE = 1;
-
-        if (this.brackets == null || this.brackets.length() == ZERO_INDEX) {
+        if (this.brackets == null || this.brackets.length() == this.ZERO_INDEX) {
             return false;
         } else {
-            List<Character> checkedBrackets = new ArrayList<>();
-            bracketsLength = brackets.length();
+            return checkMatchingAndNesting();
+        }
+    }
 
-            for (int index = ZERO_INDEX; index < brackets.toCharArray().length; index++) {
-                char bracket = brackets.toCharArray()[index];
+    private boolean checkMatchingAndNesting() {
+        List<Character> checkedBrackets = new ArrayList<>();
+        int bracketsLength = this.brackets.length();
 
-                if (isOpeningBracket(bracket)) {
-                    if (index != bracketsLength - INDEX_ONE) {
-                        checkedBrackets.add(bracket);
-                    } else {
-                        return false;
-                    }
+        for (int index = this.ZERO_INDEX; index < bracketsLength; index++) {
+            char bracket = this.brackets.toCharArray()[index];
+
+            if (isOpeningBracket(bracket)) {
+                if (index != bracketsLength - this.INDEX_ONE) {
+                    checkedBrackets.add(bracket);
                 } else {
-                    Character lastChar = checkedBrackets.get(checkedBrackets.size() - INDEX_ONE);
-                    if (isBracketNotClosed(bracket, lastChar)) {
-                        return false;
-                    } else {
-                        checkedBrackets.remove(checkedBrackets.size() - INDEX_ONE);
-                    }
+                    return false;
+                }
+            } else {
+                Character lastChar = checkedBrackets.get(checkedBrackets.size() - this.INDEX_ONE);
+                if (isBracketNotClosed(bracket, lastChar)) {
+                    return false;
+                } else {
+                    checkedBrackets.remove(checkedBrackets.size() - this.INDEX_ONE);
                 }
             }
         }
