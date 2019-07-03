@@ -1,7 +1,7 @@
 package com.codecool;
 
 /**
- * Hello world!
+ * Hello HSBC!
  *
  */
 public class App 
