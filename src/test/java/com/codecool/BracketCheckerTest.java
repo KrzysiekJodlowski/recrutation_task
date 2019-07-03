@@ -1,51 +1,117 @@
 package com.codecool;
 
-import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class BracketCheckerTest {
 
-    private BracketChecker bracketChecker;
-
     @Test
-    public void checkIfNullInputReturnsFalse() {
-        this.bracketChecker = new BracketChecker(null);
-
-        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    public void testPairedSquareBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("[]");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
 
-    @Test
-    public void checkIfEmptyInpuitReturnsFalse() {
-        this.bracketChecker = new BracketChecker("");
-
-        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
-    }
 
     @Test
-    public void checkIfCorrectShortInputReturnsTrue() {
-        this.bracketChecker = new BracketChecker("[]");
-
-        Assert.assertTrue(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    public void testEmptyString() {
+        BracketChecker bracketChecker = new BracketChecker("");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
+
 
     @Test
-    public void checkIfIncorrectShortInputReturnsFalse() {
-        this.bracketChecker = new BracketChecker("[{");
-
-        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    public void testUnpairedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("[[");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
+
 
     @Test
-    public void checkIfIncorrectLongInputReturnsTrue() {
-        this.bracketChecker = new BracketChecker("({)[[[))})");
-
-        Assert.assertFalse(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    public void testIncorrectlyOrderedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("}{");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
+
 
     @Test
-    public void checkIfCorrectLongInputReturnsTrue() {
-        this.bracketChecker = new BracketChecker("([]{[]}([]))");
-
-        Assert.assertTrue(this.bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    public void testSingleOpenBracketWithIncorrectClosingBracket() {
+        BracketChecker bracketChecker = new BracketChecker("{]");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
     }
+
+
+    @Test
+    public void testPairedBracketsWithWhitespace() {
+        BracketChecker bracketChecker = new BracketChecker("{ }");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testPartiallyPairedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("{[])");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testSimpleNestedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("{[]}");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testSeveralPairedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("{}[]");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testPairedAndNestedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("([{}({}[])])");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testUnopenedClosingBracket() {
+        BracketChecker bracketChecker = new BracketChecker("{[)][]}");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testUnpairedAndNestedBracket() {
+        BracketChecker bracketChecker = new BracketChecker("([{])");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testPairedAndIncorrectlyNestedBrackets() {
+        BracketChecker bracketChecker = new BracketChecker("[({]})");
+        assertFalse(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testValidMathExpression() {
+        BracketChecker bracketChecker = new BracketChecker("(((185 + 223.85) * 15) - 543)/2");
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
+
+    @Test
+    public void testValidComplexLaTeXExpression() {
+        BracketChecker bracketChecker = new BracketChecker(
+                "\\left(\\begin{array}{cc} \\frac{1}{3} & x\\\\ \\mathrm{e}^{x} &... x^2 \\end{array}\\right)");
+
+        assertTrue(bracketChecker.areBracketsMatchedAndNestedCorrectly());
+    }
+
 }
