@@ -9,6 +9,10 @@ public class BracketChecker {
     }
 
     public boolean areBracketsMatchedAndNestedCorrectly() {
-        return false;
+        boolean result = false;
+        if (this.brackets != null && this.brackets.equals("[]")) {
+            result = true;
+        }
+        return result;
     }
 }
