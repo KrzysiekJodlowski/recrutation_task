@@ -12,32 +12,46 @@ public class BracketChecker {
     }
 
     public boolean areBracketsMatchedAndNestedCorrectly() {
+        int bracketsLength;
 
-        if (this.brackets == null || this.brackets.length() == 0) {
+        int ZERO_INDEX = 0;
+        int INDEX_ONE = 1;
+
+        if (this.brackets == null || this.brackets.length() == ZERO_INDEX) {
             return false;
         } else {
             List<Character> checkedBrackets = new ArrayList<>();
+            bracketsLength = brackets.length();
 
-            for (int index = 0; index < brackets.toCharArray().length; index++) {
+            for (int index = ZERO_INDEX; index < brackets.toCharArray().length; index++) {
                 char bracket = brackets.toCharArray()[index];
-                if (bracket == '(' || bracket == '{' || bracket == '[') {
-                    if (index != brackets.toCharArray().length - 1) {
+
+                if (isOpeningBracket(bracket)) {
+                    if (index != bracketsLength - INDEX_ONE) {
                         checkedBrackets.add(bracket);
                     } else {
                         return false;
                     }
                 } else {
-                    Character lastChar = checkedBrackets.get(checkedBrackets.size() -1);
-                    if ((bracket == ')' &&  !lastChar.equals('(')) ||
-                            (bracket == '}' &&  !lastChar.equals('{')) ||
-                            (bracket == ']' &&  !lastChar.equals('['))) {
+                    Character lastChar = checkedBrackets.get(checkedBrackets.size() - INDEX_ONE);
+                    if (isBracketNotClosed(bracket, lastChar)) {
                         return false;
                     } else {
-                        checkedBrackets.remove(checkedBrackets.size() -1);
+                        checkedBrackets.remove(checkedBrackets.size() - INDEX_ONE);
                     }
                 }
             }
         }
         return true;
+    }
+
+    private boolean isOpeningBracket(char bracket) {
+        return bracket == '(' || bracket == '{' || bracket == '[';
+    }
+
+    private boolean isBracketNotClosed(char bracket, Character lastChar) {
+        return (bracket == ')' &&  !lastChar.equals('(')) ||
+                (bracket == '}' &&  !lastChar.equals('{')) ||
+                (bracket == ']' &&  !lastChar.equals('['));
     }
 }
