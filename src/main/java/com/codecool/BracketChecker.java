@@ -12,28 +12,32 @@ public class BracketChecker {
     }
 
     public boolean areBracketsMatchedAndNestedCorrectly() {
-        boolean result = false;
 
         if (this.brackets == null || this.brackets.length() == 0) {
-            return result;
+            return false;
         } else {
             List<Character> checkedBrackets = new ArrayList<>();
 
-            for (char bracket : brackets.toCharArray()) {
+            for (int index = 0; index < brackets.toCharArray().length; index++) {
+                char bracket = brackets.toCharArray()[index];
                 if (bracket == '(' || bracket == '{' || bracket == '[') {
-                    checkedBrackets.add(bracket);
+                    if (index != brackets.toCharArray().length - 1) {
+                        checkedBrackets.add(bracket);
+                    } else {
+                        return false;
+                    }
                 } else {
                     Character lastChar = checkedBrackets.get(checkedBrackets.size() -1);
                     if ((bracket == ')' &&  !lastChar.equals('(')) ||
                             (bracket == '}' &&  !lastChar.equals('{')) ||
                             (bracket == ']' &&  !lastChar.equals('['))) {
-                        result = false;
+                        return false;
                     } else {
                         checkedBrackets.remove(checkedBrackets.size() -1);
                     }
                 }
             }
         }
-        return result;
+        return true;
     }
 }
