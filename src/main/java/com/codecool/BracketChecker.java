@@ -35,15 +35,19 @@ public class BracketChecker {
                     return false;
                 }
             } else {
-                Character lastChar = checkedBrackets.get(checkedBrackets.size() - this.INDEX_ONE);
+                Character lastChar = checkedBrackets.get(getLastProperIndex(checkedBrackets));
                 if (isBracketNotClosed(bracket, lastChar)) {
                     return false;
                 } else {
-                    checkedBrackets.remove(checkedBrackets.size() - this.INDEX_ONE);
+                    checkedBrackets.remove(getLastProperIndex(checkedBrackets));
                 }
             }
         }
         return true;
+    }
+
+    private int getLastProperIndex(List checkedBrackets) {
+        return checkedBrackets.size() - this.INDEX_ONE;
     }
 
     private boolean isOpeningBracket(char bracket) {
